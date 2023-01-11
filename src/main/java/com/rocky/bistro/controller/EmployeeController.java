@@ -1,16 +1,16 @@
 package com.rocky.bistro.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rocky.bistro.common.R;
 import com.rocky.bistro.entity.Employee;
 import com.rocky.bistro.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -78,5 +78,21 @@ public class EmployeeController {
         //调用服务
         employeeService.save(employee);
         return R.success("新增用户成功");
+    }
+
+    @GetMapping("/page")
+    public R<Page<Employee>> page(int page, int pageSize, String name){
+        log.info("page = {},pageSize = {},name = {}" ,page,pageSize,name);
+        //构造分页查询器
+        Page pageInfo = new Page(page, pageSize);
+        //构造条件构造器
+        LambdaQueryWrapper<Employee> lambdaQueryWrapper = new LambdaQueryWrapper();
+        //添加过滤条件
+        lambdaQueryWrapper.like(StringUtils.isNotEmpty(name), Employee::getName, name);
+        //添加排序条件
+        lambdaQueryWrapper.orderByAsc(Employee::getCreateTime);
+        //执行查询
+        employeeService.page(pageInfo,lambdaQueryWrapper);
+        return R.success(pageInfo);
     }
 }

@@ -68,9 +68,8 @@ public class LoginCheckFilter implements Filter{
         log.info("用户未登录");
         response.getWriter().write(JSON.toJSONString(R.error("NOTLOGIN")));
         return;
-
-
     }
+
     public Boolean check(String RequestURI){
         for (String url : urls){
             //配对成功，返回true，

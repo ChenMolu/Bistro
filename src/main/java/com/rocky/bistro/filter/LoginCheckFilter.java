@@ -20,6 +20,7 @@ import java.io.IOException;
 public class LoginCheckFilter implements Filter{
 
     //路径匹配器，支持通配符
+    //test
     public static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
     //放行资源列表
     String[] urls = new String[]{

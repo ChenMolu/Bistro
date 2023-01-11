@@ -95,4 +95,15 @@ public class EmployeeController {
         employeeService.page(pageInfo,lambdaQueryWrapper);
         return R.success(pageInfo);
     }
+
+    @PutMapping
+    public R change(HttpServletRequest request, @RequestBody Employee employee){
+        log.info("修改员工状态,"+employee.toString());
+
+        Long eID = (Long) request.getSession().getAttribute("employee");
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(eID);
+        employeeService.updateById(employee);
+        return  R.success("修改完成");
+    }
 }

@@ -1,8 +1,8 @@
 package com.rocky.bistro.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.rocky.bistro.common.BaseContext;
 import com.rocky.bistro.common.R;
-import com.sun.prism.impl.BaseContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
 
@@ -50,17 +50,19 @@ public class LoginCheckFilter implements Filter{
         if (request.getSession().getAttribute("employee") != null){
             log.info("已登录，id号为{}", request.getSession().getAttribute("employee"));
             //存储用户id到threadLocal，本地线程可获取
-//            Long employeeId = (Long)request.getSession().getAttribute("employee");
-//            BaseContext.setCurrentId(employeeId);
+            Long employeeId = (Long)request.getSession().getAttribute("employee");
+            BaseContext.setCurrentId(employeeId);
             filterChain.doFilter(request,response);
             return;
         }
         //验证前端用户
         if (request.getSession().getAttribute("user") != null){
             log.info("已登录，id号为{}", request.getSession().getAttribute("user"));
+
             Long userId = (Long)request.getSession().getAttribute("user");
-//            BaseContext.setCurrentId(userId);
-//            filterChain.doFilter(request,response);
+            BaseContext.setCurrentId(userId);
+
+            filterChain.doFilter(request,response);
             return;
         }
 

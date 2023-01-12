@@ -69,12 +69,12 @@ public class EmployeeController {
         //设置初始化密码，进行MD5加密
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
         //设置创建时间和更新时间
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-        //获取session中的用户id，设置创建人id和更新人id
-        Long eID = (Long) request.getSession().getAttribute("employee");
-        employee.setCreateUser(eID);
-        employee.setUpdateUser(eID);
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
+//        //获取session中的用户id，设置创建人id和更新人id
+//        Long eID = (Long) request.getSession().getAttribute("employee");
+//        employee.setCreateUser(eID);
+//        employee.setUpdateUser(eID);
         //调用服务
         employeeService.save(employee);
         return R.success("新增用户成功");
@@ -100,9 +100,9 @@ public class EmployeeController {
     public R change(HttpServletRequest request, @RequestBody Employee employee){
         log.info("修改员工状态,"+employee.toString());
 
-        Long eID = (Long) request.getSession().getAttribute("employee");
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(eID);
+//        Long eID = (Long) request.getSession().getAttribute("employee");
+//        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateUser(eID);
         employeeService.updateById(employee);
         return  R.success("修改完成");
     }

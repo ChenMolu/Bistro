@@ -28,7 +28,8 @@ public class LoginCheckFilter implements Filter{
             "/employee/logout",
             "/backend/**",
             "/front/**",
-            "/user/**"
+            "/user/**",
+            "/common/**"
     };
 
     @Override

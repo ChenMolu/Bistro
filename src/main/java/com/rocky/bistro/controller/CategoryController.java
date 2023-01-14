@@ -9,7 +9,10 @@ import com.rocky.bistro.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -53,4 +56,20 @@ public class CategoryController {
         categoryService.updateById(category);
         return R.success("修改成功");
     }
+
+    /**
+     * 根据条件查询菜品列表
+     * @param type
+     * @return
+     */
+    @GetMapping("/list")
+    public R list(Integer type){
+        LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(type != null,Category::getType,type);
+        //添加排序条件
+        queryWrapper.orderByAsc(Category::getSort).orderByDesc(Category::getUpdateTime);
+        List<Category> list = categoryService.list(queryWrapper);
+        return R.success(list);
+    }
+
 }

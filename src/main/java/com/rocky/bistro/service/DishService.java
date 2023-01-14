@@ -8,4 +8,6 @@ import org.springframework.stereotype.Service;
 
 public interface DishService extends IService<Dish> {
     public void saveWithFlavor(DishDto dishDto);
+    public DishDto getByIdWithFlavor(Long id);
+    public void updateByIdWithFlavor(DishDto dishDto);
 }
